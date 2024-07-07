@@ -1,0 +1,11 @@
+{
+    "dev": {
+      "driver": "pg",
+      "user": "postgres",
+      "password": "Makesure7@",
+      "host": "localhost",
+      "database": "postgres",
+      "port": 5432
+    }
+  }
+  
