@@ -1,17 +1,21 @@
-// app.js
 const express = require('express');
-const app = express();
-const authRoutes = require('./routes/authRoutes');
-const client = require('./config/database'); 
-app.use(express.json());
+const bodyParser = require('body-parser');
+const authRoutes = require('./routes/auth');
+const database = require('./config/database');
 
+const app = express();
+
+app.use(bodyParser.json());
 app.use('/auth', authRoutes);
 
-app.listen(5000, () => {
-  console.log('Server is running on port 5000');
-});
+const PORT = process.env.PORT || 5000;
 
-module.exports = {
-    app,
-    client
+// Export the app for Vercel
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+    database.connect();
+  });
 }
