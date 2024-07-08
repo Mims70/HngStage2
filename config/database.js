@@ -1,20 +1,25 @@
-// config/database.js
 const { Client } = require('pg');
 require('dotenv').config();
 
-let client;
+const client = new Client({
+    host: process.env.POSTGRES_HOST,
+    user: process.env.POSTGRES_USER,
+    port: process.env.POSTGRES_PORT,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DATABASE,
+    ssl: {
+        rejectUnauthorized: false // Only use this in development/testing
+    }
+});
 
-function getClient() {
-  if (!client) {
-    client = new Client({
-      connectionString: process.env.DATABASE_URL,
+// Connect to the database
+client.connect()
+    .then(() => {
+        console.log('Connected to the database');
+    })
+    .catch(err => {
+        console.error('Connection error', err.stack);
     });
 
-    client.connect()
-      .then(() => console.log('Connected to the database'))
-      .catch(err => console.error('Connection error', err.stack));
-  }
-  return client;
-}
-
-module.exports = getClient();
+// Export the client for use in other parts of your application
+module.exports = client;
