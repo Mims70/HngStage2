@@ -32,3 +32,4 @@ process.on('exit', () => {
   server.close();
   emitter.removeAllListeners();
 });
+module.exports = query
